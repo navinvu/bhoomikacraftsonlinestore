@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhoomika Crafts — Art Supplies & Virtual Gallery</title>
+<style>
+  :root {
+    --pink: #E91E63;
+    --yellow: #FFC107;
+    --green: #4CAF50;
+    --brown: #3E2723;
+    --cream: #FDF8F2;
+    --charcoal: #2b2b2b;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.2;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* HEADER */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 6%;
+    background: rgba(253, 248, 242, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border-bottom: 3px solid var(--pink);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  .logo-text {
+    font-family: Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--pink);
+  }
+
+  nav { display: flex; gap: 22px; }
+  nav a { font-weight: 600; transition: color 0.2s; color: var(--brown); }
+  nav a:hover { color: var(--pink); }
+
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+
+  .whatsapp-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .whatsapp-btn:hover { background: #128C7E; transform: translateY(-2px); }
+
+  .menu-btn {
+    display: none;
+    background: var(--brown);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 6%;
+    background:
+      linear-gradient(rgba(62, 39, 35, 0.7), rgba(233, 30, 99, 0.6)),
+      url('https://picsum.photos/seed/arthero/1600/900') center/cover;
+    color: white;
+  }
+
+  .hero-content { max-width: 750px; }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin-bottom: 16px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+  .hero p { font-size: 1.15rem; margin-bottom: 28px; opacity: 0.95; }
+
+  .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .btn:hover { transform: translateY(-2px); opacity: 0.95; }
+  .btn.primary { background: var(--yellow); color: var(--brown); }
+  .btn.secondary { background: white; color: var(--brown); }
+
+  /* SECTIONS */
+  .section { padding: 80px 6%; }
+  .section.dark { background: var(--brown); color: white; }
+  .section h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 10px; color: var(--pink); }
+  .section.dark h2 { color: var(--yellow); }
+  .subtitle { margin-bottom: 36px; opacity: 0.8; }
+
+  .grid { display: grid; gap: 24px; }
+
+  .products { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .gallery { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .artists { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    border-top: 4px solid var(--pink);
+  }
+
+  .card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.12); }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-body { padding: 18px; }
+  .card h3 { font-size: 1.15rem; margin-bottom: 6px; color: var(--brown); }
+  .price { color: var(--pink); font-weight: bold; font-size: 1.1rem; }
+
+  .card .whatsapp-btn {
+    margin-top: 12px;
+    width: 100%;
+    justify-content: center;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .card .whatsapp-btn:hover { background: #128C7E; }
+
+  /* GALLERY */
+  .art-card {
+    background: #4e342e;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s;
+    border: 2px solid transparent;
+  }
+
+  .art-card:hover { transform: scale(1.02); border-color: var(--yellow); }
+  .art-card img { width: 100%; height: 240px; object-fit: cover; display: block; }
+  .art-card .info { padding: 16px; }
+  .art-card h3 { font-size: 1.1rem; color: var(--yellow); }
+  .art-card p { opacity: 0.75; font-size: 0.9rem; color: white; }
+
+  /* ARTISTS */
+  .artist-card {
+    text-align: center;
+    padding: 26px 18px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border-bottom: 4px solid var(--green);
+    transition: transform 0.25s;
+  }
+
+  .artist-card:hover { transform: translateY(-6px); }
+
+  .artist-card img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 14px;
+    border: 3px solid var(--yellow);
+  }
+
+  .artist-card h3 { margin-bottom: 4px; color: var(--brown); }
+  .artist-card span { color: var(--pink); font-size: 0.9rem; font-weight: 600; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    align-items: center;
+  }
+
+  .about-grid img { width: 100%; border-radius: var(--radius); border: 4px solid var(--yellow); }
+
+  /* CONTACT */
+  .contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .contact-info {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: var(--radius);
+    border-left: 5px solid var(--pink);
+  }
+
+  .contact-info p {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .contact-info strong {
+    color: var(--yellow);
+    display: block;
+    font-size: 1.1rem;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 14px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.9);
+  }
+
+  .contact-form textarea { min-height: 130px; resize: vertical; }
+
+  .contact-form button {
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--yellow);
+    color: var(--brown);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+
+  .contact-form .whatsapp-btn {
+    background: #25D366;
+    color: white;
+    font-size: 1rem;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: center;
+  }
+  .contact-form .whatsapp-btn:hover { background: #128C7E; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 6%;
+    background: #1a1a1a;
+    color: #aaa;
+    font-size: 0.9rem;
+    border-top: 5px solid var(--pink);
+  }
+
+  .footer-logo {
+    height: 60px;
+    width: auto;
+    margin-bottom: 15px;
+    object-fit: contain;
+  }
+
+  .footer-brand {
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .footer-brand span { color: var(--pink); }
+
+  /* MODAL */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal.active { display: flex; }
+
+  .modal-content {
+    background: white;
+    max-width: 800px;
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    animation: pop 0.25s ease;
+    border: 4px solid var(--yellow);
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-content img { width: 100%; max-height: 450px; object-fit: cover; }
+  .modal-body { padding: 22px; }
+  .modal-body h3 { margin-bottom: 6px; color: var(--pink); }
+  .modal-body p { margin-bottom: 6px; }
+
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .close-btn:hover { background: #c2185b; }
+
+  .modal-body .whatsapp-btn {
+    margin-top: 16px;
+    width: 100%;
+    justify-content: center;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .modal-body .whatsapp-btn:hover { background: #128C7E; }
+
+  /* FLOATING WHATSAPP BUTTON */
+  .floating-whatsapp {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 62px;
+    height: 62px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+    z-index: 300;
+    border: none;
+    transition: transform 0.25s, background 0.25s;
+    animation: floatPulse 2s infinite;
+  }
+
+  .floating-whatsapp:hover {
+    background: #128C7E;
+    transform: scale(1.1);
+  }
+
+  @keyframes floatPulse {
+    0%   { box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5); }
+    50%  { box-shadow: 0 8px 28px rgba(37, 211, 102, 0.85); }
+    100% { box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5); }
+  }
+
+  .floating-whatsapp::after {
+    content: "Chat with us";
+    position: absolute;
+    right: 74px;
+    background: var(--brown);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+
+  .floating-whatsapp:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--cream);
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border-bottom: 3px solid var(--pink);
+    }
+
+    nav.open { display: flex; }
+    .menu-btn { display: inline-block; }
+    .header-actions .whatsapp-btn span { display: none; }
+    .header-actions .whatsapp-btn { padding: 8px 12px; }
+
+    .contact-container {
+      grid-template-columns: 1fr;
+    }
+
+    .floating-whatsapp { bottom: 18px; right: 18px; width: 56px; height: 56px; font-size: 1.7rem; }
+    .floating-whatsapp::after { display: none; }
+    
+    .logo-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="#home" class="logo">
+    <img src="logo.png" alt="Bhoomika Crafts Logo" class="logo-img">
+    <span class="logo-text">Bhoomika Crafts</span>
+  </a>
+
+  <nav id="nav">
+    <a href="#home">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#gallery">Virtual Gallery</a>
+    <a href="#artists">Artists</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="whatsapp-btn" onclick="openWhatsApp('Hi Bhoomika Crafts! I would like to know more about your art materials and exhibitions.')">
+      💬 <span>WhatsApp</span>
+    </button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Where Art Begins and Artists Shine</h1>
+      <p>Shop premium art materials and explore virtual exhibitions by talented artists.</p>
+      <div class="hero-buttons">
+        <a href="#shop" class="btn primary">Shop Art Materials</a>
+        <a href="#gallery" class="btn secondary">Visit Virtual Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop" class="section">
+    <h2>Art Materials</h2>
+    <p class="subtitle">Everything you need to create your next masterpiece. Order via WhatsApp.</p>
+    <div class="grid products" id="shopGrid">
+      <!-- Loaded dynamically from admin panel -->
+    </div>
+  </section>
+
+  <!-- VIRTUAL GALLERY -->
+  <section id="gallery" class="section dark">
+    <h2>Virtual Exhibition Center</h2>
+    <p class="subtitle">Explore artworks by featured artists. Click any artwork to view details.</p>
+    <div class="grid gallery" id="galleryGrid">
+      <!-- Loaded dynamically from admin panel -->
+    </div>
+  </section>
+
+  <!-- ARTISTS -->
+  <section id="artists" class="section">
+    <h2>Featured Artists</h2>
+    <p class="subtitle">Meet the creators behind the virtual exhibitions.</p>
+    <div class="grid artists" id="artistsGrid">
+      <!-- Loaded dynamically from admin panel -->
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h2>About Bhoomika Crafts</h2>
+    <div class="about-grid">
+      <div>
+        <p>
+          Bhoomika Crafts is an art and craft shop that also provides a space for artists to exhibit
+          their paintings and creative works. We bring the physical gallery experience online through
+          our virtual exhibition center, so art lovers can explore and connect with artists from anywhere.
+        </p>
+        <br>
+        <p>
+          Located at <strong>Ukken Arcade, Near Rajiv Gandhi Town Hall, Irinjalakuda, Thrissur</strong>, 
+          we are a hub for creativity, offering premium supplies and a platform for local talent.
+        </p>
+      </div>
+      <img src="https://picsum.photos/seed/gallery/800/500" alt="Bhoomika Crafts Gallery">
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section dark">
+    <h2>Contact Us</h2>
+    <p class="subtitle">For orders, artist collaborations, or exhibition enquiries — reach us on WhatsApp.</p>
+
+    <div class="contact-container">
+      <div class="contact-info">
+        <p><strong>📍 Address:</strong><br> Ukken Arcade, Near Rajiv Gandhi Town Hall, Irinjalakuda, Thrissur, Pin Code: 680 121, Kerala, India</p>
+        <p><strong>📞 Mobile:</strong><br> <a href="tel:+917736802908" style="color:white;">+91 77 3680 2908</a></p>
+        <p><strong>💬 WhatsApp:</strong><br> <a href="https://wa.me/919744602304" target="_blank" style="color:white;">+91 97 4460 2304</a></p>
+        <p><strong>✉️ Email:</strong><br> <a href="mailto:bhoomika.crafts@gmail.com" style="color:white;">bhoomika.crafts@gmail.com</a></p>
+        <p><strong>🌐 Website:</strong><br> <a href="http://www.makeinbhoomika.com" target="_blank" style="color:white;">www.makeinbhoomika.com</a></p>
+      </div>
+
+      <form class="contact-form" onsubmit="event.preventDefault(); sendContactMessage();">
+        <input type="text" placeholder="Your Name" id="contactName" required>
+        <input type="email" placeholder="Your Email" id="contactEmail" required>
+        <textarea placeholder="Your Message" id="contactMessage" required></textarea>
+        <button type="submit" class="whatsapp-btn">💬 Send via WhatsApp</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <img src="logo.png" alt="Bhoomika Crafts Logo" class="footer-logo">
+  <div class="footer-brand">Bhoomika <span>Crafts</span></div>
+  <p>Ukken Arcade, Near Rajiv Gandhi Town Hall, Irinjalakuda, Thrissur, Kerala - 680 121</p>
+  <p>📞 +91 77 3680 2908 | 💬 +91 97 4460 2304</p>
+  <p style="margin-top: 15px;">© 2026 Bhoomika Crafts. Art Supplies • Virtual Gallery • Artist Space.</p>
+</footer>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<button class="floating-whatsapp" aria-label="Chat on WhatsApp"
+        onclick="openWhatsApp('Hi Bhoomika Crafts! I would like to know more about your art materials and exhibitions.')">
+  💬
+</button>
+
+<!-- MODAL -->
+<div id="artModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <img id="modalImg" src="" alt="Artwork">
+    <div class="modal-body">
+      <h3 id="modalTitle"></h3>
+      <p><strong>Artist:</strong> <span id="modalArtist"></span></p>
+      <p><strong>Medium:</strong> <span id="modalMedium"></span></p>
+      <p style="margin-top:12px; opacity:0.8;">Interested in this piece? Enquire directly on WhatsApp.</p>
+      <button class="whatsapp-btn" id="modalWhatsappBtn">💬 Enquire on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================
+  // CONFIG — Change this to your WhatsApp number
+  // ============================================
+  const WHATSAPP_NUMBER = '919744602304';
+
+  // ============================================
+  // WHATSAPP HELPERS
+  // ============================================
+  function openWhatsApp(message) {
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
+  function sendContactMessage() {
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactEmail').value;
+    const message = document.getElementById('contactMessage').value;
+    const fullMessage = `Hi Bhoomika Crafts!\n\nName: ${name}\nEmail: ${email}\n\nMessage: ${message}`;
+    openWhatsApp(fullMessage);
+  }
+
+  // ============================================
+  // NAVIGATION
+  // ============================================
+  function toggleMenu() {
+    document.getElementById('nav').classList.toggle('open');
+  }
+
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('nav').classList.remove('open');
+    });
+  });
+
+  // ============================================
+  // ARTWORK MODAL
+  // ============================================
+  function openArtModal(title, artist, medium, img) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalArtist').textContent = artist;
+    document.getElementById('modalMedium').textContent = medium;
+    document.getElementById('modalImg').src = img;
+
+    const btn = document.getElementById('modalWhatsappBtn');
+    btn.onclick = () => openWhatsApp(`Hi, I'm interested in the artwork "${title}" by ${artist}. Please share more details.`);
+    document.getElementById('artModal').classList.add('active');
+  }
+
+  function closeModal(e) {
+    if (!e || e.target.id === 'artModal' || e.target.classList.contains('close-btn')) {
+      document.getElementById('artModal').classList.remove('active');
+    }
+  }
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('artModal').classList.remove('active');
+    }
+  });
+
+  // ============================================
+  // DYNAMIC DATA LOADING FROM LOCAL STORAGE
+  // ============================================
+
+  // Escape HTML to prevent XSS and quote issues
+  function esc(str) {
+    if (str === undefined || str === null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Escape for use inside onclick="..." attribute (single quotes)
+  function escAttr(str) {
+    if (str === undefined || str === null) return '';
+    return String(str)
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '&quot;');
+  }
+
+  function loadShopItems() {
+    const grid = document.getElementById('shopGrid');
+    if (!grid) return;
+
+    const stored = localStorage.getItem('bhoomika_shop');
+    let items;
+    if (stored) {
+      try { items = JSON.parse(stored); } catch (e) { items = []; }
+    } else {
+      items = [
+        { id: 1, name: 'Acrylic Paint Set', price: '899', image: 'https://picsum.photos/seed/paint/600/400', desc: 'Vibrant colors for canvas' },
+        { id: 2, name: 'Professional Brush Set', price: '649', image: 'https://picsum.photos/seed/brushes/600/400', desc: 'Smooth bristles' },
+        { id: 3, name: 'Stretched Canvas Board', price: '499', image: 'https://picsum.photos/seed/canvas/600/400', desc: 'Ready to paint' },
+        { id: 4, name: 'DIY Clay Craft Kit', price: '799', image: 'https://picsum.photos/seed/clay/600/400', desc: 'Fun for all ages' }
+      ];
+    }
+
+    if (items.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; width:100%; color:#888; grid-column: 1/-1;">No products available at the moment.</p>';
+      return;
+    }
+
+    grid.innerHTML = items.map(item => `
+      <div class="card">
+        <img src="${esc(item.image)}" alt="${esc(item.name)}" onerror="this.src='https://picsum.photos/seed/placeholder/600/400'">
+        <div class="card-body">
+          <h3>${esc(item.name)}</h3>
+          <p class="price">₹${esc(item.price)}</p>
+          <button class="whatsapp-btn" onclick="openWhatsApp('Hi, I want to order the ${escAttr(item.name)} (₹${escAttr(item.price)}).')">
+            💬 Order on WhatsApp
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function loadGalleryItems() {
+    const grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+
+    const stored = localStorage.getItem('bhoomika_gallery');
+    let items;
+    if (stored) {
+      try { items = JSON.parse(stored); } catch (e) { items = []; }
+    } else {
+      items = [
+        { id: 1, title: 'Sunset Over Ganges', artist: 'Aarav Mehta', medium: 'Acrylic on canvas', image: 'https://picsum.photos/seed/art1/600/400' },
+        { id: 2, title: 'Silent Forest', artist: 'Priya Nair', medium: 'Oil on canvas', image: 'https://picsum.photos/seed/art2/600/400' },
+        { id: 3, title: 'Urban Dreams', artist: 'Rohan Das', medium: 'Mixed media', image: 'https://picsum.photos/seed/art3/600/400' },
+        { id: 4, title: 'Colors of Soil', artist: 'Meera Joshi', medium: 'Watercolor', image: 'https://picsum.photos/seed/art4/600/400' }
+      ];
+    }
+
+    if (items.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; width:100%; color:#ccc; grid-column: 1/-1;">No artworks on display at the moment.</p>';
+      return;
+    }
+
+    grid.innerHTML = items.map(item => `
+      <div class="art-card" onclick="openArtModal('${escAttr(item.title)}','${escAttr(item.artist)}','${escAttr(item.medium)}','${escAttr(item.image)}')">
+        <img src="${esc(item.image)}" alt="${esc(item.title)}" onerror="this.src='https://picsum.photos/seed/placeholder/600/400'">
+        <div class="info">
+          <h3>${esc(item.title)}</h3>
+          <p>${esc(item.artist)}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function loadArtists() {
+    const grid = document.getElementById('artistsGrid');
+    if (!grid) return;
+
+    const stored = localStorage.getItem('bhoomika_artists');
+    let items;
+    if (stored) {
+      try { items = JSON.parse(stored); } catch (e) { items = []; }
+    } else {
+      items = [
+        { id: 1, name: 'Aarav Mehta', specialty: 'Acrylic & Oil', image: 'https://picsum.photos/seed/artist1/200/200' },
+        { id: 2, name: 'Priya Nair', specialty: 'Watercolor', image: 'https://picsum.photos/seed/artist2/200/200' },
+        { id: 3, name: 'Rohan Das', specialty: 'Mixed Media', image: 'https://picsum.photos/seed/artist3/200/200' }
+      ];
+    }
+
+    if (items.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; width:100%; color:#888; grid-column: 1/-1;">No artists added yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = items.map(item => `
+      <div class="artist-card">
+        <img src="${esc(item.image)}" alt="${esc(item.name)}" onerror="this.src='https://picsum.photos/seed/placeholder/200/200'">
+        <h3>${esc(item.name)}</h3>
+        <span>${esc(item.specialty)}</span>
+      </div>
+    `).join('');
+  }
+
+  // ============================================
+  // INITIALIZE
+  // ============================================
+  document.addEventListener('DOMContentLoaded', () => {
+    loadShopItems();
+    loadGalleryItems();
+    loadArtists();
+  });
+
+  // Listen for storage changes (if admin edits in another tab)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'bhoomika_shop') loadShopItems();
+    if (e.key === 'bhoomika_gallery') loadGalleryItems();
+    if (e.key === 'bhoomika_artists') loadArtists();
+  });
+</script>
+
+</body>
+</html>
